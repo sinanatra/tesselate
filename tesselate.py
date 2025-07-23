@@ -84,15 +84,20 @@ def tesselate_image(
         img = img.convert("1", dither=Image.NONE)
 
     file_list = []
+    PRINTER_MAX_WIDTH_PX = 576 # to ber fixed
     if direction == "vertical":
         num_strips = (target_width_px + strip_px - 1) // strip_px
         for idx in range(num_strips):
             x0 = idx * strip_px
             x1 = min((idx + 1) * strip_px, target_width_px)
             strip = img.crop((x0, 0, x1, target_height_px))
+            # Only resize if you KNOW strip.width != PRINTER_MAX_WIDTH_PX due to rounding, 
+            # but ideally strip width should already match printer max width
             fname = os.path.join(output_folder, f"vstrip_{idx + 1:02d}.png")
             strip.save(fname)
             file_list.append(fname)
+
+    
     elif direction == "horizontal":
         num_strips = (target_height_px + strip_px - 1) // strip_px
         for idx in range(num_strips):
@@ -100,6 +105,8 @@ def tesselate_image(
             y1 = min((idx + 1) * strip_px, target_height_px)
             strip = img.crop((0, y0, target_width_px, y1))
             strip = strip.rotate(90, expand=True)
+            if strip.width != PRINTER_MAX_WIDTH_PX:
+                strip = strip.resize((PRINTER_MAX_WIDTH_PX, strip.height), Image.LANCZOS)
             fname = os.path.join(output_folder, f"hstrip_{idx + 1:02d}.png")
             strip.save(fname)
             file_list.append(fname)
