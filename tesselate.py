@@ -115,7 +115,8 @@ def print_strips_from_folder(
     folder,
     printer_name="_0_0_0_0",
     vendor_id=0x04b8,
-    product_id=0x0202
+    product_id=0x0202,
+    pause=True
 ):
     files = sorted(
         [os.path.join(folder, f) for f in os.listdir(folder) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
@@ -139,8 +140,9 @@ def print_strips_from_folder(
                 subprocess.run(["lpr", "-P", printer_name, path], check=True)
             except subprocess.CalledProcessError as err:
                 continue
-        if idx < len(files) - 1:
+        if pause and idx < len(files) - 1:
             input("Tear off the strip and press Enter to print the next one...")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Tesselate images for thermal/art printing.")
@@ -163,6 +165,7 @@ def main():
     p.add_argument("--printer_name", default=None, help="Printer name for lpr")
     p.add_argument("--vendor_id", type=lambda x: int(x,0), default=0x04b8)
     p.add_argument("--product_id", type=lambda x: int(x,0), default=0x0202)
+    p.add_argument("--no-pause", action="store_true", default=False, help="Print all strips continuously, without waiting for user input.")
     args = parser.parse_args()
     if args.command == "tesselate":
         if args.width_cm and args.height_cm:
@@ -189,8 +192,10 @@ def main():
             args.folder,
             printer_name=args.printer_name,
             vendor_id=args.vendor_id,
-            product_id=args.product_id
+            product_id=args.product_id,
+            pause=not args.no_pause   
         )
+
 
 if __name__ == "__main__":
     main()
