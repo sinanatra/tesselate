@@ -1,3 +1,4 @@
+import math
 import argparse
 import os
 import numpy as np
@@ -42,8 +43,8 @@ def tesselate_image(
     width_mm,
     height_mm,
     printer_dots_per_mm=8,
-    strip_mm=73,
-    mode="fill",
+    strip_mm=79,
+    mode="stretch",   
     dither_mode="floyd",
     halftone_cell_size=8,
     invert=False,
