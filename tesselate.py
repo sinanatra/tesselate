@@ -5,6 +5,7 @@ from PIL import Image, ImageOps
 from io import BytesIO
 import requests
 import subprocess
+from escpos.printer import Usb
 
 Image.MAX_IMAGE_PIXELS = None
 
@@ -41,8 +42,8 @@ def tesselate_image(
     width_mm,
     height_mm,
     printer_dots_per_mm=8,
-    strip_mm=60,
-    mode="fit",
+    strip_mm=73,
+    mode="fill",
     dither_mode="floyd",
     halftone_cell_size=8,
     invert=False,
@@ -97,14 +98,16 @@ def tesselate_image(
             y0 = idx * strip_px
             y1 = min((idx + 1) * strip_px, target_height_px)
             strip = img.crop((0, y0, target_width_px, y1))
+            strip = strip.rotate(90, expand=True)
             fname = os.path.join(output_folder, f"hstrip_{idx + 1:02d}.png")
             strip.save(fname)
             file_list.append(fname)
     return file_list
 
+
 def print_strips_from_folder(
     folder,
-    printer_name=None,
+    printer_name="_0_0_0_0",
     vendor_id=0x04b8,
     product_id=0x0202
 ):
@@ -114,6 +117,7 @@ def print_strips_from_folder(
     if not files:
         print("No images found in the folder.")
         return
+
     print(f"Found {len(files)} strips. Ready to print.")
     for idx, path in enumerate(files):
         print(f"\n🖨️ Printing strip {idx+1}/{len(files)}: {path}")
@@ -125,13 +129,10 @@ def print_strips_from_folder(
             printer.image(img)
             printer.cut()
         except Exception as e:
-            if printer_name:
-                try:
-                    subprocess.run(["lpr", "-P", printer_name, path], check=True)
-                except subprocess.CalledProcessError as err:
-                    print(f"Error printing with lpr: {err}")
-            else:
-                print("Printer not found and no printer_name provided.")
+            try:
+                subprocess.run(["lpr", "-P", printer_name, path], check=True)
+            except subprocess.CalledProcessError as err:
+                continue
         if idx < len(files) - 1:
             input("Tear off the strip and press Enter to print the next one...")
 
