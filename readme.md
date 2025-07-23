@@ -32,7 +32,7 @@ Usage
 DIN format, vertical strips (A3, Floyd-Steinberg dither):
 
 ```code
-python3 tesselate.py tesselate  img/palm.jpg --din A3 --strip_mm 60 --direction vertical --dither_mode floyd
+python tesselate.py tesselate  img/palm.jpg --din A3 --strip_mm 60 --direction vertical --dither_mode floyd
 ```
 
 Custom size in centimeters (e.g., 55cm x 80cm, horizontal strips):
@@ -44,13 +44,13 @@ python tesselate.py tesselate  img/trees.jpg --width_cm 55 --height_cm 80  --dir
 Halftone grid and inverted colours
 
 ```code
-python3 tesselate.py tesselate  img/palm.jpg --din A4 --invert --dither_mode halftone
+python tesselate.py tesselate  img/palm.jpg --din A4 --invert --dither_mode halftone
 ```
 
 All options:
 
     --output_folder           Name of folder for image strips (default: tesselated_strips)
-    --strip_mm                Width or height of each strip, in mm (default: 60)
+    --strip_mm                Width or height of each strip, in mm (default: 72.2)
     --dither_mode             floyd, halftone, or none
     --direction               vertical or horizontal
     --printer_dots_per_mm     Print resolution (default: 8)
@@ -75,7 +75,14 @@ Direct to USB receipt printer:
 python tesselate.py print tesselated_strips --printer_name ""
 ```
 
+e.g.
+
+```code
+python3 tesselate.py print tesselated_strips --printer_name _0_0_0_0
+```
+
 Or, using your system printer (via lpr):
 
-    python tesselate.py print tesselated_strips --printer_name YOUR_PRINTER_NAME
-
+```code
+python tesselate.py print tesselated_strips --printer_name YOUR_PRINTER_NAME
+```
