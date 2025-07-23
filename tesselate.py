@@ -91,8 +91,6 @@ def tesselate_image(
             x0 = idx * strip_px
             x1 = min((idx + 1) * strip_px, target_width_px)
             strip = img.crop((x0, 0, x1, target_height_px))
-            # Only resize if you KNOW strip.width != PRINTER_MAX_WIDTH_PX due to rounding, 
-            # but ideally strip width should already match printer max width
             fname = os.path.join(output_folder, f"vstrip_{idx + 1:02d}.png")
             strip.save(fname)
             file_list.append(fname)
