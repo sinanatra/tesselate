@@ -65,7 +65,7 @@ Options:
 See all available options:
 
 ```code
-    python tesselate.py tesselate --help
+python tesselate.py tesselate --help
 ```
 
 ## 2. Print all image strips in a folder
