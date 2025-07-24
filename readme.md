@@ -13,7 +13,7 @@ Features
 - Supports all DIN paper sizes (A0–A6) and custom cm sizes
 - Multiple dithering modes (Floyd-Steinberg, halftone, none)
 - Output strips as PNG images, ready for printing
-- Direct thermal printer support via USB (with python-escpos), or prints via system lpr
+- Direct thermal printer support via USB (with python-escpos), or prints via system lpr.
 
 Installation
 ------------
@@ -47,7 +47,7 @@ Halftone grid and inverted colours
 python tesselate.py tesselate  img/palm.jpg --din A4 --invert --dither_mode halftone
 ```
 
-All options:
+Options:
 
     --output_folder           Name of folder for image strips (default: tesselated_strips)
     --strip_mm                Width or height of each strip, in mm (default: 72.2)
@@ -60,6 +60,7 @@ All options:
     --width_cm                Custom width in centimeters (overrides DIN)
     --height_cm               Custom height in centimeters (overrides DIN)
     --invert                  Invert the image (black <-> white)
+    ...
 
 See all available options:
 
@@ -72,13 +73,7 @@ See all available options:
 Direct to USB receipt printer:
 
 ```code
-python tesselate.py print tesselated_strips --printer_name ""
-```
-
-e.g.
-
-```code
-python3 tesselate.py print tesselated_strips --printer_name _0_0_0_0
+python tesselate.py print tesselated_strips --printer_name _0_0_0_0
 ```
 
 Or, using your system printer (via lpr):
