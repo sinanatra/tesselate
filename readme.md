@@ -27,7 +27,7 @@ pip install -r requirements.txt
 Usage
 -----
 
-## 1. Split an image
+### 1. Split an image
 
 DIN format, vertical strips (A3, Floyd-Steinberg dither):
 
@@ -68,7 +68,7 @@ See all available options:
 python tesselate.py tesselate --help
 ```
 
-## 2. Print all image strips in a folder
+### 2. Print all image strips in a folder
 
 Direct to USB receipt printer:
 
