@@ -49,7 +49,8 @@ def tesselate_image(
     halftone_cell_size=8,
     invert=False,
     direction="vertical",
-):
+    printer_max_width_px=576
+    ):
     target_width_px = int(width_mm * printer_dots_per_mm)
     target_height_px = int(height_mm * printer_dots_per_mm)
     strip_px = int(strip_mm * printer_dots_per_mm)
@@ -84,7 +85,6 @@ def tesselate_image(
         img = img.convert("1", dither=Image.NONE)
 
     file_list = []
-    PRINTER_MAX_WIDTH_PX = 576 # to ber fixed
     if direction == "vertical":
         num_strips = (target_width_px + strip_px - 1) // strip_px
         for idx in range(num_strips):
@@ -103,8 +103,8 @@ def tesselate_image(
             y1 = min((idx + 1) * strip_px, target_height_px)
             strip = img.crop((0, y0, target_width_px, y1))
             strip = strip.rotate(90, expand=True)
-            if strip.width != PRINTER_MAX_WIDTH_PX:
-                strip = strip.resize((PRINTER_MAX_WIDTH_PX, strip.height), Image.LANCZOS)
+            if strip.width != printer_max_width_px:
+                strip = strip.resize((printer_max_width_px, strip.height), Image.LANCZOS)
             fname = os.path.join(output_folder, f"hstrip_{idx + 1:02d}.png")
             strip.save(fname)
             file_list.append(fname)
@@ -160,6 +160,7 @@ def main():
     tess.add_argument("--halftone_cell_size", type=int, default=8)
     tess.add_argument("--invert", action="store_true", default=False)
     tess.add_argument("--direction", choices=["vertical", "horizontal"], default="vertical")
+    tess.add_argument("--printer_max_width_px", type=int, default=576)
     p = subparsers.add_parser("print", help="Print all image strips in folder")
     p.add_argument("folder", help="Folder of strips to print")
     p.add_argument("--printer_name", default=None, help="Printer name for lpr")
@@ -185,7 +186,8 @@ def main():
             dither_mode=args.dither_mode,
             halftone_cell_size=args.halftone_cell_size,
             invert=args.invert,
-            direction=args.direction
+            direction=args.direction,
+            printer_max_width_px=args.printer_max_width_px 
         )
     elif args.command == "print":
         print_strips_from_folder(
