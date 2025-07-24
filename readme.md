@@ -52,7 +52,7 @@ Options:
     --output_folder           Name of folder for image strips (default: tesselated_strips)
     --strip_mm                Width or height of each strip, in mm (default: 72.2)
     --dither_mode             floyd, halftone, or none
-    --direction               vertical or horizontal
+    --direction               vertical, horizontal or diagonal
     --printer_dots_per_mm     Print resolution (default: 8)
     --halftone_cell_size      Dot size for halftone (default: 8)
     --mode                    How to resize: fit, fill, or stretch

@@ -94,8 +94,6 @@ def tesselate_image(
             fname = os.path.join(output_folder, f"vstrip_{idx + 1:02d}.png")
             strip.save(fname)
             file_list.append(fname)
-
-    
     elif direction == "horizontal":
         num_strips = (target_height_px + strip_px - 1) // strip_px
         for idx in range(num_strips):
@@ -107,7 +105,23 @@ def tesselate_image(
                 strip = strip.resize((printer_max_width_px, strip.height), Image.LANCZOS)
             fname = os.path.join(output_folder, f"hstrip_{idx + 1:02d}.png")
             strip.save(fname)
+            file_list.append(fname)      
+    elif direction == "diagonal":
+        rotated = img.rotate(45, expand=True, fillcolor=255)
+        rotated_w, rotated_h = rotated.size
+        num_strips = (rotated_w + printer_max_width_px - 1) // printer_max_width_px
+
+        for idx in range(num_strips):
+            x0 = idx * printer_max_width_px
+            x1 = min((idx + 1) * printer_max_width_px, rotated_w)
+            strip = rotated.crop((x0, 0, x1, rotated_h))
+            strip = strip.convert("1")
+            fname = os.path.join(output_folder, f"diagstrip_{idx+1:02d}.png")
+            strip.save(fname)
             file_list.append(fname)
+
+
+
     return file_list
 
 
@@ -159,8 +173,9 @@ def main():
     tess.add_argument("--dither_mode", choices=["floyd", "halftone", "none"], default="floyd")
     tess.add_argument("--halftone_cell_size", type=int, default=8)
     tess.add_argument("--invert", action="store_true", default=False)
-    tess.add_argument("--direction", choices=["vertical", "horizontal"], default="vertical")
+    tess.add_argument("--direction", choices=["vertical", "horizontal", "diagonal"], default="vertical")
     tess.add_argument("--printer_max_width_px", type=int, default=576)
+    
     p = subparsers.add_parser("print", help="Print all image strips in folder")
     p.add_argument("folder", help="Folder of strips to print")
     p.add_argument("--printer_name", default=None, help="Printer name for lpr")
