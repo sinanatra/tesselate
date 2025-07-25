@@ -12,16 +12,6 @@ It’s ideal for large-format or experimental printing with standard receipt pri
 
 
 
-
-Features
---------
-
-- Tesselate any image into vertical or horizontal strips for long roll/receipt printers
-- Supports all DIN paper sizes (A0–A6) and custom cm sizes
-- Multiple dithering modes (Floyd-Steinberg, halftone, none)
-- Output strips as PNG images, ready for printing
-- Direct thermal printer support via USB (with python-escpos), or prints via system lpr.
-
 Installation
 ------------
 
