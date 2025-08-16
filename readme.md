@@ -6,10 +6,17 @@ tesselate
   <img src="https://github.com/user-attachments/assets/02e3448a-4454-42b8-b2ad-ff861d2e50a2" alt="image 2" style="width: 19%; height: 100%; object-fit: cover;" />
 </div>
 
+
 Tesselate splits images into printable strips for thermal receipt printers, supporting all DIN formats (A0–A6) and custom banner sizes.  
 It’s ideal for large-format or experimental printing with standard receipt printers, roll printers, and thermal printers.
 
----
+
+
+
+
+It exists as a python library and web interface.
+
+<img width="1397" height="742" alt="Screenshot 2025-08-16 at 13 52 01" src="https://github.com/user-attachments/assets/fd783020-efc8-40b3-8357-b1162217b8e5" />
 
 Installation
 ------------
