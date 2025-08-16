@@ -311,7 +311,7 @@
       printers, supporting all DIN formats (A0–A6) and custom banner sizes. It’s
       ideal for large-format or experimental printing with standard receipt
       printers, roll printers, and thermal printers.
-      <br /> <br> Drop an image or use the default
+      <br /> <br /> Drop an image or use the default
     </p>
 
     <div class="row">
@@ -497,7 +497,7 @@
     --panel: #d6d6d6;
     --muted: #7a7a7a;
     --fg: #252525;
-    --accent: #7c9cff;
+    --accent: red;
   }
 
   :global(body) {
@@ -505,6 +505,17 @@
     padding: 0;
     font-size: 14px;
     font-family: "Courier New", Courier, monospace;
+  }
+
+  :global(::selection) {
+    color: var(--accent);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 100;
+    color: var(--accent);
   }
 
   .grid {
