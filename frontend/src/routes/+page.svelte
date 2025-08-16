@@ -28,6 +28,7 @@
     invert: false,
     direction: "vertical",
     printer_max_width_px: 576,
+    pixel_size_px: 1, 
   };
 
   let printer = {
@@ -74,6 +75,27 @@
     await generateStrips();
   }
 
+  
+  function pixelateImageData(id, block = 1) {
+    block = Math.max(1, Math.floor(block || 1));
+    if (block <= 1) return id;
+    const { width: w, height: h, data } = id;
+    for (let y = 0; y < h; y += block) {
+      for (let x = 0; x < w; x += block) {
+        const k0 = (y * w + x) * 4;
+        const v = data[k0]; 
+        for (let yy = y; yy < Math.min(y + block, h); yy++) {
+          for (let xx = x; xx < Math.min(x + block, w); xx++) {
+            const k = (yy * w + xx) * 4;
+            data[k] = data[k + 1] = data[k + 2] = v;
+            data[k + 3] = 255;
+          }
+        }
+      }
+    }
+    return id;
+  }
+
   async function generateStrips() {
     if (!imgEl) return;
     busy = true;
@@ -104,6 +126,9 @@
       worker.onerror = (e) => reject(e);
       worker.postMessage({ imageData: id, settings: s }, [id.data.buffer]);
     });
+
+    
+    pixelateImageData(processed, Number(s.pixel_size_px) || 1);
 
     const sourceCanvas = document.createElement("canvas");
     sourceCanvas.width = processed.width;
@@ -311,7 +336,6 @@
       printers, supporting all DIN formats (A0–A6) and custom banner sizes. It’s
       ideal for large-format or experimental printing with standard receipt
       printers, roll printers, and thermal printers.
-      <br /> <br /> Drop an image or use the default
     </p>
 
     <div class="row">
@@ -362,17 +386,16 @@
           on:change={onAutoChange}
         />
       </div>
-      <div style="flex:1">
-        <label>Dots/mm</label>
-        <input
-          type="number"
-          step="1"
-          min="1"
-          bind:value={s.printer_dots_per_mm}
-          on:change={onAutoChange}
-        />
-      </div>
     </div>
+
+    <label>Pixel size (px)</label>
+    <input
+      type="number"
+      step="1"
+      min="1"
+      bind:value={s.pixel_size_px}
+      on:change={onAutoChange}
+    />
 
     <label>Mode</label>
     <select bind:value={s.mode} on:change={onAutoChange}>
@@ -414,6 +437,16 @@
           on:change={onAutoChange}
         />
       </div>
+      <div style="flex:1">
+        <label>Dots/mm</label>
+        <input
+          type="number"
+          step="1"
+          min="1"
+          bind:value={s.printer_dots_per_mm}
+          on:change={onAutoChange}
+        />
+      </div>
     </div>
 
     <div class="row" style="margin-top:8px">
@@ -427,9 +460,9 @@
     </div>
 
     <div class="row" style="margin-top:12px; gap:12px">
-      <button on:click={downloadZIP}>Download ZIP</button>
-      <button on:click={openPrintSheets}>Print Sheets</button>
-      <button on:click={doWebUSBPrint}>Print via WebUSB</button>
+      <button on:click={downloadZIP}>Download</button>
+      <!-- <button on:click={openPrintSheets}>Print Sheets</button> -->
+      <button on:click={doWebUSBPrint}>Print</button>
     </div>
 
     <p class="muted" style="margin-top:8px">{busy ? "Working…" : statusMsg}</p>
