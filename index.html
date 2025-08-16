@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<link href="./_app/immutable/assets/2.DS7QQimA.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.6vGj-oUf.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/DcjEGIft.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/W0BAji1W.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.DWZgqL5q.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/IHki7fMi.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.CZuXcSoD.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.of5JnPtC.js">
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">  <div class="grid svelte-1vl5lug"><div class="panel controls svelte-1vl5lug"><h2 style="margin:0 0 6px" data-svelte-h="svelte-1iave8w">Tesselate</h2> <p data-svelte-h="svelte-1m004yk">Tesselate splits images into printable strips for thermal receipt
+      printers, supporting all DIN formats (A0–A6) and custom banner sizes. It’s
+      ideal for large-format or experimental printing with standard receipt
+      printers, roll printers, and thermal printers.
+      <br> <br> Drop an image or use the default</p> <div class="row svelte-1vl5lug"><input type="file" accept="image/*" class="svelte-1vl5lug"> <button class="svelte-1vl5lug" data-svelte-h="svelte-1kyz42r">Browse</button></div> <label class="svelte-1vl5lug" data-svelte-h="svelte-qwiy2r">DIN</label> <select class="svelte-1vl5lug"><option value="A0">A0</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="A5">A5</option><option value="A6">A6</option></select> <div class="row svelte-1vl5lug"><div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-13h7zre">Custom Width (cm)</label> <input type="number" step="0.1" class="svelte-1vl5lug"></div> <div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-1aydr0b">Custom Height (cm)</label> <input type="number" step="0.1" class="svelte-1vl5lug"></div></div> <div class="row svelte-1vl5lug"><div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-1bko2kh">Strip (mm)</label> <input type="number" step="0.1" class="svelte-1vl5lug" value="60"></div> <div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-1ciqefv">Dots/mm</label> <input type="number" step="1" class="svelte-1vl5lug" value="8"></div></div> <label class="svelte-1vl5lug" data-svelte-h="svelte-16wpful">Mode</label> <select class="svelte-1vl5lug"><option value="fit" data-svelte-h="svelte-1ox0qsw">fit</option><option value="fill" data-svelte-h="svelte-ojnp86">fill</option><option value="stretch" data-svelte-h="svelte-19g2w9o">stretch</option></select> <label class="svelte-1vl5lug" data-svelte-h="svelte-1k63le1">Direction</label> <select class="svelte-1vl5lug"><option value="vertical" data-svelte-h="svelte-lztc1q">vertical</option><option value="horizontal" data-svelte-h="svelte-4ixlgm">horizontal</option><option value="diagonal" data-svelte-h="svelte-1j2ut9m">diagonal</option></select> <label class="svelte-1vl5lug" data-svelte-h="svelte-1b6xat8">Dither</label> <select class="svelte-1vl5lug"><option value="floyd" data-svelte-h="svelte-dxg5ae">floyd</option><option value="halftone" data-svelte-h="svelte-hdobsm">halftone</option><option value="none" data-svelte-h="svelte-8dsaj2">none</option></select> <div class="row svelte-1vl5lug"><div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-1r22cu7">Halftone cell</label> <input type="number" step="1" class="svelte-1vl5lug" value="8"></div> <div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-brceij">Printer max width (px)</label> <input type="number" step="1" class="svelte-1vl5lug" value="576"></div></div> <div class="row svelte-1vl5lug" style="margin-top:8px"><label class="svelte-1vl5lug"><input type="checkbox" class="svelte-1vl5lug"> Invert</label></div> <div class="row svelte-1vl5lug" style="margin-top:12px; gap:12px"><button class="svelte-1vl5lug" data-svelte-h="svelte-1too1c6">Download ZIP</button> <button class="svelte-1vl5lug" data-svelte-h="svelte-gajl1g">Print Sheets</button> <button class="svelte-1vl5lug" data-svelte-h="svelte-12psuyd">Print via WebUSB</button></div> <p class="muted svelte-1vl5lug" style="margin-top:8px"></p> <div class="printer-box svelte-1vl5lug"><h3 style="margin:0 0 8px" data-svelte-h="svelte-7nfo8s">Printer</h3> <div class="row svelte-1vl5lug"><div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-nfk8vb">Vendor ID (hex)</label> <input placeholder="e.g. 04b8" class="svelte-1vl5lug" value=""></div> <div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-1313xps">Product ID (hex)</label> <input placeholder="optional" class="svelte-1vl5lug" value=""></div></div> <div class="row svelte-1vl5lug"><div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-v7kanb">Interface</label> <input type="number" min="0" class="svelte-1vl5lug" value="0"></div> <div style="flex:1"><label class="svelte-1vl5lug" data-svelte-h="svelte-1pn3nlb">Endpoint</label> <input type="number" min="1" class="svelte-1vl5lug" value="1"></div></div> <div class="row svelte-1vl5lug"><label class="svelte-1vl5lug">Align
+          <select class="svelte-1vl5lug"><option value="left" data-svelte-h="svelte-dm3ioe">left</option><option value="center" data-svelte-h="svelte-1x1wx6q">center</option><option value="right" data-svelte-h="svelte-gdc71y">right</option></select></label> <label class="svelte-1vl5lug"><input type="checkbox" class="svelte-1vl5lug" checked> Pause</label> <label class="svelte-1vl5lug"><input type="checkbox" class="svelte-1vl5lug" checked> Cut</label></div></div></div> <div class="panel svelte-1vl5lug"><p class="muted svelte-1vl5lug" data-svelte-h="svelte-1v7zxrp">Loading default image… or choose a file.</p></div> </div> 
+			
+			<script>
+				{
+					__sveltekit_u15lo8 = {
+						base: new URL(".", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("./_app/immutable/entry/start.6vGj-oUf.js"),
+						import("./_app/immutable/entry/app.DWZgqL5q.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 2],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>
