@@ -1,19 +1,16 @@
 tesselate
 =========
 
-<img width="2888" height="1624" alt="image" src="https://github.com/user-attachments/assets/db5c71a0-af54-490b-9a03-dd2f9d34edd8" />
+<div style="display: flex; gap: 2%; align-items: flex-start;">
+  <img src="https://github.com/user-attachments/assets/db5c71a0-af54-490b-9a03-dd2f9d34edd8" alt="image 1" style="width: 79%; height: 100%; object-fit: cover;" />
+  <img src="https://github.com/user-attachments/assets/02e3448a-4454-42b8-b2ad-ff861d2e50a2" alt="image 2" style="width: 19%; height: 100%; object-fit: cover;" />
+</div>
+
 
 Tesselate splits images into printable strips for thermal receipt printers, supporting all DIN formats (A0–A6) and custom banner sizes.
 It’s ideal for large-format or experimental printing with standard receipt printers, roll printers, and thermal printers.
 
-Features
---------
 
-- Tesselate any image into vertical or horizontal strips for long roll/receipt printers
-- Supports all DIN paper sizes (A0–A6) and custom cm sizes
-- Multiple dithering modes (Floyd-Steinberg, halftone, none)
-- Output strips as PNG images, ready for printing
-- Direct thermal printer support via USB (with python-escpos), or prints via system lpr.
 
 Installation
 ------------
