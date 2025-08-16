@@ -28,7 +28,7 @@
     invert: false,
     direction: "vertical",
     printer_max_width_px: 576,
-    pixel_size_px: 1, 
+    pixel_size_px: 1,
   };
 
   let printer = {
@@ -75,7 +75,6 @@
     await generateStrips();
   }
 
-  
   function pixelateImageData(id, block = 1) {
     block = Math.max(1, Math.floor(block || 1));
     if (block <= 1) return id;
@@ -83,7 +82,7 @@
     for (let y = 0; y < h; y += block) {
       for (let x = 0; x < w; x += block) {
         const k0 = (y * w + x) * 4;
-        const v = data[k0]; 
+        const v = data[k0];
         for (let yy = y; yy < Math.min(y + block, h); yy++) {
           for (let xx = x; xx < Math.min(x + block, w); xx++) {
             const k = (yy * w + xx) * 4;
@@ -127,7 +126,6 @@
       worker.postMessage({ imageData: id, settings: s }, [id.data.buffer]);
     });
 
-    
     pixelateImageData(processed, Number(s.pixel_size_px) || 1);
 
     const sourceCanvas = document.createElement("canvas");
@@ -386,38 +384,54 @@
           on:change={onAutoChange}
         />
       </div>
+      <div style="flex:1">
+        <label>Pixel size (px)</label>
+        <input
+          type="number"
+          step="1"
+          min="1"
+          bind:value={s.pixel_size_px}
+          on:change={onAutoChange}
+        />
+      </div>
     </div>
-
-    <label>Pixel size (px)</label>
-    <input
-      type="number"
-      step="1"
-      min="1"
-      bind:value={s.pixel_size_px}
-      on:change={onAutoChange}
-    />
-
-    <label>Mode</label>
-    <select bind:value={s.mode} on:change={onAutoChange}>
-      <option value="fit">fit</option>
-      <option value="fill">fill</option>
-      <option value="stretch">stretch</option>
-    </select>
-
-    <label>Direction</label>
-    <select bind:value={s.direction} on:change={onAutoChange}>
-      <option value="vertical">vertical</option>
-      <option value="horizontal">horizontal</option>
-      <option value="diagonal">diagonal</option>
-    </select>
-
-    <label>Dither</label>
-    <select bind:value={s.dither} on:change={onAutoChange}>
-      <option value="floyd">floyd</option>
-      <option value="halftone">halftone</option>
-      <option value="none">none</option>
-    </select>
-
+    <div class="row">
+      <div style="flex:1">
+        <label>Mode</label>
+        <select bind:value={s.mode} on:change={onAutoChange}>
+          <option value="fit">fit</option>
+          <option value="fill">fill</option>
+          <option value="stretch">stretch</option>
+        </select>
+      </div>
+      <div style="flex:1">
+        <label>Direction</label>
+        <select bind:value={s.direction} on:change={onAutoChange}>
+          <option value="vertical">vertical</option>
+          <option value="horizontal">horizontal</option>
+          <option value="diagonal">diagonal</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <label>Dither</label>
+        <select bind:value={s.dither} on:change={onAutoChange}>
+          <option value="floyd">floyd</option>
+          <option value="halftone">halftone</option>
+          <option value="none">none</option>
+        </select>
+      </div>
+      <div style="flex:1">
+        <label
+          ><input
+            type="checkbox"
+            bind:checked={s.invert}
+            on:change={onAutoChange}
+          /> Invert</label
+        >
+      </div>
+    </div>
     <div class="row">
       <div style="flex:1">
         <label>Halftone cell</label>
@@ -437,6 +451,8 @@
           on:change={onAutoChange}
         />
       </div>
+    </div>
+    <div class="row">
       <div style="flex:1">
         <label>Dots/mm</label>
         <input
@@ -447,16 +463,6 @@
           on:change={onAutoChange}
         />
       </div>
-    </div>
-
-    <div class="row" style="margin-top:8px">
-      <label
-        ><input
-          type="checkbox"
-          bind:checked={s.invert}
-          on:change={onAutoChange}
-        /> Invert</label
-      >
     </div>
 
     <div class="row" style="margin-top:12px; gap:12px">
@@ -537,7 +543,7 @@
   :global(body) {
     margin: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 12px;
     font-family: "Courier New", Courier, monospace;
   }
 
