@@ -32,7 +32,7 @@ Usage
 DIN format, vertical strips (A3, Floyd-Steinberg dither):
 
 ```code
-python tesselate.py tesselate  img/palm.jpg --din A3 --strip_mm 60 --direction vertical --dither_mode floyd
+python3 tesselate.py tesselate  img/thinker.jpg --din A1 --strip_mm 60 --direction vertical --dither_mode floyd
 ```
 
 Custom size in centimeters (e.g., 55cm x 80cm, horizontal strips):
@@ -40,6 +40,11 @@ Custom size in centimeters (e.g., 55cm x 80cm, horizontal strips):
 ```code
 python tesselate.py tesselate  img/trees.jpg --width_cm 55 --height_cm 80  --direction horizontal --dither_mode floyd  --mode fill
 ```
+
+
+
+python3 tesselate.py tesselate  img/giuliano.jpeg --din A3   --direction horizontal --dither_mode floyd  --mode fill
+
 
 Halftone grid and inverted colours
 
