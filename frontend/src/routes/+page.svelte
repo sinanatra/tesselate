@@ -17,7 +17,7 @@
   let statusMsg = "";
 
   let s = {
-    din: "A4",
+    din: "A3",
     width_cm: undefined,
     height_cm: undefined,
     printer_dots_per_mm: 8,
