@@ -321,7 +321,6 @@
         accept="image/*"
         on:change={onFileChange}
       />
-      <button on:click={() => fileInput.click()}>Browse</button>
     </div>
 
     <label>DIN</label>
@@ -524,12 +523,12 @@
     display: grid;
     grid-template-columns: 360px 1fr;
     gap: 8px;
-    padding: 10px;
+    padding: 5px;
   }
   .panel {
     background: var(--panel);
     border-radius: 6px;
-    padding: 10px;
+    padding: 5px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
   }
   .controls label {
@@ -551,7 +550,7 @@
     background: #f5f5f5;
     color: var(--fg);
     border-radius: 8px;
-    padding: 6px 8px;
+    padding: 3px 4px;
   }
   button.primary {
     background: var(--accent);
@@ -568,7 +567,7 @@
     background: #fff;
     border: 1px solid #ccc;
     border-radius: 6px;
-    padding: 8px;
+    padding: 4px;
     height: fit-content;
   }
   .stripItem img {
@@ -589,7 +588,7 @@
     margin-top: 12px;
     border: 1px solid #c9c9c9;
     background: #efefef;
-    padding: 10px;
+    padding: 5px;
     border-radius: 6px;
   }
 </style>
