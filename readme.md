@@ -6,18 +6,17 @@ tesselate
   <img src="https://github.com/user-attachments/assets/02e3448a-4454-42b8-b2ad-ff861d2e50a2" alt="image 2" style="width: 19%; height: 100%; object-fit: cover;" />
 </div>
 
-
-Tesselate splits images into printable strips for thermal receipt printers, supporting all DIN formats (A0–A6) and custom banner sizes.
+Tesselate splits images into printable strips for thermal receipt printers, supporting all DIN formats (A0–A6) and custom banner sizes.  
 It’s ideal for large-format or experimental printing with standard receipt printers, roll printers, and thermal printers.
 
-
+---
 
 Installation
 ------------
 
 Clone this repo and install dependencies:
 
- ```code
+```bash
 pip install -r requirements.txt
 ```
 
@@ -28,25 +27,20 @@ Usage
 
 DIN format, vertical strips (A3, Floyd-Steinberg dither):
 
-```code
-python3 tesselate.py tesselate  img/thinker.jpg --din A1 --strip_mm 60 --direction vertical --dither_mode floyd
+```bash
+python3 tesselate.py tesselate img/thinker.jpg --din A1 --strip_mm 60 --direction vertical --dither_mode floyd
 ```
 
 Custom size in centimeters (e.g., 55cm x 80cm, horizontal strips):
 
-```code
-python tesselate.py tesselate  img/trees.jpg --width_cm 55 --height_cm 80  --direction horizontal --dither_mode floyd  --mode fill
+```bash
+python tesselate.py tesselate img/trees.jpg --width_cm 55 --height_cm 80 --direction horizontal --dither_mode floyd --mode fill
 ```
 
+Halftone grid and inverted colours:
 
-
-python3 tesselate.py tesselate  img/giuliano.jpeg --din A3   --direction horizontal --dither_mode floyd  --mode fill
-
-
-Halftone grid and inverted colours
-
-```code
-python tesselate.py tesselate  img/palm.jpg --din A4 --invert --dither_mode halftone
+```bash
+python tesselate.py tesselate img/palm.jpg --din A4 --invert --dither_mode halftone
 ```
 
 Options:
@@ -62,11 +56,10 @@ Options:
     --width_cm                Custom width in centimeters (overrides DIN)
     --height_cm               Custom height in centimeters (overrides DIN)
     --invert                  Invert the image (black <-> white)
-    ...
 
 See all available options:
 
-```code
+```bash
 python tesselate.py tesselate --help
 ```
 
@@ -74,12 +67,35 @@ python tesselate.py tesselate --help
 
 Direct to USB receipt printer:
 
-```code
+```bash
 python tesselate.py print tesselated_strips --printer_name _0_0_0_0
 ```
 
 Or, using your system printer (via lpr):
 
-```code
+```bash
 python tesselate.py print tesselated_strips --printer_name YOUR_PRINTER_NAME
+```
+
+---
+
+Web tool (browser)
+------------------
+
+<div style="display: flex; gap: 2%; align-items: flex-start;">
+  <img src="https://github.com/user-attachments/assets/38b56f58-050f-48a5-8277-ff8ebd73c9aa" alt="image 1" style="width: 49%; height: 100%; object-fit: cover;" />
+  <img src="https://github.com/user-attachments/assets/a86ea216-637c-4f9c-a3c1-d744856279a2" alt="image 2" style="width: 49%; height: 100%; object-fit: cover;" />
+</div>
+
+
+
+Tesselate is also a web app built in Svelte. Runs entirely in the browser: load an image, set DIN/custom size and strip width, apply dithering (Floyd–Steinberg, Halftone, None, Invert), and export or print. 
+
+### Quick start
+
+```bash
+cd frontend
+npm i
+npm run dev
+# open http://localhost:5173
 ```
