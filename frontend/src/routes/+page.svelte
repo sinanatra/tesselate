@@ -357,6 +357,7 @@
         <input
           type="number"
           step="0.1"
+          min="1"
           bind:value={s.strip_mm}
           on:change={onAutoChange}
         />
@@ -366,6 +367,7 @@
         <input
           type="number"
           step="1"
+          min="1"
           bind:value={s.printer_dots_per_mm}
           on:change={onAutoChange}
         />
