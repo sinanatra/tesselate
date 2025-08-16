@@ -50,7 +50,7 @@
 
   onMount(async () => {
     try {
-      imageURL = "/palm.jpg";
+      imageURL = "palm.jpg";
       await loadFromURL();
     } catch (e) {
       console.warn("Could not load default image", e);
