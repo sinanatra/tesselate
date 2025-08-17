@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import JSZip from "jszip";
-  import { DIN_SIZES_MM } from "$lib/types.js";
+  import { din_sizes } from "$lib/types.js";
   import {
     getTargetMM,
     toPx,
@@ -43,7 +43,7 @@
 
   let strips = [];
   let busy = false;
-  const DIN_KEYS = Object.keys(DIN_SIZES_MM);
+  const DIN_KEYS = Object.keys(din_sizes);
 
   function setStatus(m) {
     statusMsg = m ?? "";

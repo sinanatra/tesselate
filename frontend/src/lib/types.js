@@ -1,4 +1,4 @@
-export const DIN_SIZES_MM = {
+export const din_sizes = {
   A0: [841, 1189],
   A1: [594, 841],
   A2: [420, 594],

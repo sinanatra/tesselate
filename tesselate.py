@@ -10,7 +10,7 @@ from escpos.printer import Usb
 
 Image.MAX_IMAGE_PIXELS = None
 
-DIN_SIZES_MM = {
+din_sizes = {
     "A0": (841, 1189),
     "A1": (594, 841),
     "A2": (420, 594),
@@ -164,7 +164,7 @@ def main():
     tess = subparsers.add_parser("tesselate", help="Tesselate image into strips")
     tess.add_argument("source", help="Source image file (or URL)")
     tess.add_argument("--output_folder", default="tesselated_strips")
-    tess.add_argument("--din", choices=DIN_SIZES_MM.keys(), help="DIN size (A4, A3, etc)")
+    tess.add_argument("--din", choices=din_sizes.keys(), help="DIN size (A4, A3, etc)")
     tess.add_argument("--width_cm", type=float, help="Custom width (cm)")
     tess.add_argument("--height_cm", type=float, help="Custom height (cm)")
     tess.add_argument("--printer_dots_per_mm", type=int, default=8)
@@ -187,7 +187,7 @@ def main():
         if args.width_cm and args.height_cm:
             width_mm, height_mm = args.width_cm * 10, args.height_cm * 10
         elif args.din:
-            width_mm, height_mm = DIN_SIZES_MM[args.din]
+            width_mm, height_mm = din_sizes[args.din]
         else:
             width_mm, height_mm = 210, 297
         tesselate_image(

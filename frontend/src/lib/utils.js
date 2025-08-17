@@ -1,10 +1,10 @@
-import { DIN_SIZES_MM } from "./types.js";
+import { din_sizes } from "./types.js";
 
 export const toPx = (mm, dpm) => Math.round(mm * dpm);
 
 export function getTargetMM({ din, width_cm, height_cm }) {
   if (width_cm && height_cm) return [width_cm * 10, height_cm * 10];
-  if (din) return DIN_SIZES_MM[din];
+  if (din) return din_sizes[din];
   return [210, 297]; // default A4
 }
 
