@@ -43,6 +43,7 @@
 
   let strips = [];
   let busy = false;
+  let fullCanvas = null; // <-- NEW: holds full processed page (before slicing)
   const DIN_KEYS = Object.keys(din_sizes);
 
   function setStatus(m) {
@@ -100,6 +101,7 @@
     busy = true;
     setStatus("Processing…");
     strips = [];
+    fullCanvas = null;
 
     const [wmm, hmm] = getTargetMM(s);
     const tw = toPx(wmm, s.printer_dots_per_mm);
@@ -132,6 +134,7 @@
     sourceCanvas.width = processed.width;
     sourceCanvas.height = processed.height;
     sourceCanvas.getContext("2d").putImageData(processed, 0, 0);
+    fullCanvas = sourceCanvas;
 
     const stripPx = toPx(s.strip_mm, s.printer_dots_per_mm);
 
@@ -232,6 +235,30 @@
 
     busy = false;
     setStatus(`Generated ${strips.length} strips.`);
+  }
+
+  async function downloadFull() {
+    try {
+      if (!fullCanvas) {
+        setStatus("No full image. Generate strips first.");
+        return;
+      }
+      const blob = await blobFromCanvas(fullCanvas);
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement("a"), {
+        href: url,
+        download: "tesselate_full.png",
+      });
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      setStatus("Full image downloaded.");
+    } catch (e) {
+      console.error(e);
+      setStatus("Full image download failed.");
+      alert("Full image download failed: " + (e?.message || e));
+    }
   }
 
   async function downloadZIP() {
@@ -406,7 +433,8 @@
     </div>
 
     <div class="row" style="margin-top: 10px;">
-      <button on:click={downloadZIP}>Download</button>
+      <button on:click={downloadFull}>Download Image</button>
+      <button on:click={downloadZIP}>Download Strips</button>
       <button on:click={doWebUSBPrint}>Print</button>
     </div>
 
