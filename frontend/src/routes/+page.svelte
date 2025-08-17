@@ -247,7 +247,7 @@
       const url = URL.createObjectURL(blob);
       const a = Object.assign(document.createElement("a"), {
         href: url,
-        download: "tesselate_full.png",
+        download: "tessellate_full.png",
       });
       document.body.appendChild(a);
       a.click();
@@ -268,7 +268,7 @@
         return;
       }
       const zip = new JSZip();
-      const folder = zip.folder("tesselated_strips") || zip;
+      const folder = zip.folder("tessellated_strips") || zip;
       for (const st of strips) {
         const blob = await blobFromCanvas(st.canvas);
         folder.file(st.name, blob);
@@ -277,7 +277,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "tesselated_strips.zip";
+      a.download = "tessellated_strips.zip";
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -331,9 +331,9 @@
 
 <div class="grid">
   <div class="panel controls">
-    <h1>Tesselate</h1>
+    <h1>tessellate</h1>
     <p class="desc">
-      Tesselate splits images into printable strips for thermal receipt
+      tessellate splits images into printable strips for thermal receipt
       printers, supporting all DIN formats (A0–A6) and custom banner sizes. It’s
       ideal for large-format or experimental printing with standard receipt
       printers, roll printers, and thermal printers.

@@ -37,7 +37,7 @@ def halftone(img, cell_size=8):
                             result[cy + i, cx + j] = 0
     return Image.fromarray(result)
 
-def tesselate_image(
+def tessellate_image(
     source,
     output_folder,
     width_mm,
@@ -159,11 +159,11 @@ def print_strips_from_folder(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Tesselate images for thermal/art printing.")
+    parser = argparse.ArgumentParser(description="tessellate images for thermal/art printing.")
     subparsers = parser.add_subparsers(dest="command", required=True)
-    tess = subparsers.add_parser("tesselate", help="Tesselate image into strips")
+    tess = subparsers.add_parser("tessellate", help="tessellate image into strips")
     tess.add_argument("source", help="Source image file (or URL)")
-    tess.add_argument("--output_folder", default="tesselated_strips")
+    tess.add_argument("--output_folder", default="tessellated_strips")
     tess.add_argument("--din", choices=din_sizes.keys(), help="DIN size (A4, A3, etc)")
     tess.add_argument("--width_cm", type=float, help="Custom width (cm)")
     tess.add_argument("--height_cm", type=float, help="Custom height (cm)")
@@ -183,14 +183,14 @@ def main():
     p.add_argument("--product_id", type=lambda x: int(x,0), default=0x0202)
     p.add_argument("--no-pause", action="store_true", default=False, help="Print all strips continuously, without waiting for user input.")
     args = parser.parse_args()
-    if args.command == "tesselate":
+    if args.command == "tessellate":
         if args.width_cm and args.height_cm:
             width_mm, height_mm = args.width_cm * 10, args.height_cm * 10
         elif args.din:
             width_mm, height_mm = din_sizes[args.din]
         else:
             width_mm, height_mm = 210, 297
-        tesselate_image(
+        tessellate_image(
             args.source,
             output_folder=args.output_folder,
             width_mm=width_mm,

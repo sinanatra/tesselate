@@ -5,7 +5,7 @@
 
 
 
-Tesselate is also a web app built in Svelte. Runs entirely in the browser: load an image, set DIN/custom size and strip width, apply dithering (Floyd–Steinberg, Halftone, None, Invert), and export or print. 
+tessellate is also a web app built in Svelte. Runs entirely in the browser: load an image, set DIN/custom size and strip width, apply dithering (Floyd–Steinberg, Halftone, None, Invert), and export or print. 
 
 ### Quick start
 

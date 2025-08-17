@@ -1,4 +1,4 @@
-tesselate
+tessellate
 =========
 
 <div style="display: flex; gap: 2%; align-items: flex-start;">
@@ -7,7 +7,7 @@ tesselate
 </div>
 
 
-Tesselate splits images into printable strips for thermal receipt printers, supporting all DIN formats (A0–A6) and custom banner sizes.  
+tessellate splits images into printable strips for thermal receipt printers, supporting all DIN formats (A0–A6) and custom banner sizes.  
 It’s ideal for large-format or experimental printing with standard receipt printers, roll printers, and thermal printers.
 
 
@@ -36,24 +36,24 @@ Usage
 DIN format, vertical strips (A3, Floyd-Steinberg dither):
 
 ```bash
-python3 tesselate.py tesselate img/thinker.jpg --din A1 --strip_mm 60 --direction vertical --dither_mode floyd
+python3 tessellate.py tessellate img/thinker.jpg --din A1 --strip_mm 60 --direction vertical --dither_mode floyd
 ```
 
 Custom size in centimeters (e.g., 55cm x 80cm, horizontal strips):
 
 ```bash
-python tesselate.py tesselate img/trees.jpg --width_cm 55 --height_cm 80 --direction horizontal --dither_mode floyd --mode fill
+python tessellate.py tessellate img/trees.jpg --width_cm 55 --height_cm 80 --direction horizontal --dither_mode floyd --mode fill
 ```
 
 Halftone grid and inverted colours:
 
 ```bash
-python tesselate.py tesselate img/palm.jpg --din A4 --invert --dither_mode halftone
+python tessellate.py tessellate img/palm.jpg --din A4 --invert --dither_mode halftone
 ```
 
 Options:
 
-    --output_folder           Name of folder for image strips (default: tesselated_strips)
+    --output_folder           Name of folder for image strips (default: tessellated_strips)
     --strip_mm                Width or height of each strip, in mm (default: 72.2)
     --dither_mode             floyd, halftone, or none
     --direction               vertical, horizontal or diagonal
@@ -68,7 +68,7 @@ Options:
 See all available options:
 
 ```bash
-python tesselate.py tesselate --help
+python tessellate.py tessellate --help
 ```
 
 ### 2. Print all image strips in a folder
@@ -76,13 +76,13 @@ python tesselate.py tesselate --help
 Direct to USB receipt printer:
 
 ```bash
-python tesselate.py print tesselated_strips --printer_name _0_0_0_0
+python tessellate.py print tessellated_strips --printer_name _0_0_0_0
 ```
 
 Or, using your system printer (via lpr):
 
 ```bash
-python tesselate.py print tesselated_strips --printer_name YOUR_PRINTER_NAME
+python tessellate.py print tessellated_strips --printer_name YOUR_PRINTER_NAME
 ```
 
 ---
@@ -97,7 +97,7 @@ Web tool
 
 
 
-Tesselate is also a web app built in Svelte. Runs entirely in the browser: load an image, set DIN/custom size and strip width, apply dithering (Floyd–Steinberg, Halftone, None, Invert), and export or print. 
+tessellate is also a web app built in Svelte. Runs entirely in the browser: load an image, set DIN/custom size and strip width, apply dithering (Floyd–Steinberg, Halftone, None, Invert), and export or print. 
 
 ### Quick start
 
