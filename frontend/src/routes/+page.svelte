@@ -297,30 +297,6 @@
     }
   }
 
-  function openPrintSheets() {
-    if (!strips.length) {
-      setStatus("Nothing to print. Generate strips first.");
-      return;
-    }
-    const win = window.open("", "_blank");
-    if (!win) return;
-    const mm = (px) => px / s.printer_dots_per_mm + "mm";
-    const html = `<!doctype html><html><head><meta charset="utf-8"/><title>Print Sheets</title>
-      <style>@page{margin:10mm}body{margin:0} .strip{page-break-after:always;display:flex;justify-content:center} img{image-rendering:pixelated}</style>
-      </head><body>
-      ${strips
-        .map(
-          (st) =>
-            `<div class="strip"><img src="${st.canvas.toDataURL()}" style="width:${mm(
-              st.canvas.width
-            )};height:${mm(st.canvas.height)}"/></div>`
-        )
-        .join("")}
-      <script>onload=()=>print()<\/script></body></html>`;
-    win.document.write(html);
-    win.document.close();
-  }
-
   function onAutoChange() {
     if (imgEl && !busy) generateStrips();
   }
@@ -328,32 +304,31 @@
 
 <div class="grid">
   <div class="panel controls">
-    <h2 style="margin:0 0 6px">Tesselate</h2>
-    <p>
+    <h1>Tesselate</h1>
+    <p class="desc">
       Tesselate splits images into printable strips for thermal receipt
       printers, supporting all DIN formats (A0–A6) and custom banner sizes. It’s
       ideal for large-format or experimental printing with standard receipt
       printers, roll printers, and thermal printers.
     </p>
 
-    <div class="row">
-      <input
-        type="file"
-        bind:this={fileInput}
-        accept="image/*"
-        on:change={onFileChange}
-      />
-    </div>
-
-    <label>DIN</label>
-    <select bind:value={s.din} on:change={onAutoChange}>
-      {#each DIN_KEYS as k}
-        <option value={k}>{k}</option>
-      {/each}
-    </select>
+    <input
+      type="file"
+      bind:this={fileInput}
+      accept="image/*"
+      on:change={onFileChange}
+    />
 
     <div class="row">
-      <div style="flex:1">
+      <div>
+        <label>DIN</label>
+        <select bind:value={s.din} on:change={onAutoChange}>
+          {#each DIN_KEYS as k}
+            <option value={k}>{k}</option>
+          {/each}
+        </select>
+      </div>
+      <div>
         <label>Custom Width (cm)</label>
         <input
           type="number"
@@ -362,7 +337,7 @@
           on:change={onAutoChange}
         />
       </div>
-      <div style="flex:1">
+      <div>
         <label>Custom Height (cm)</label>
         <input
           type="number"
@@ -374,17 +349,23 @@
     </div>
 
     <div class="row">
-      <div style="flex:1">
-        <label>Strip (mm)</label>
-        <input
-          type="number"
-          step="0.1"
-          min="1"
-          bind:value={s.strip_mm}
-          on:change={onAutoChange}
-        />
+      <div>
+        <label>Mode</label>
+        <select bind:value={s.mode} on:change={onAutoChange}>
+          <option value="fit">fit</option>
+          <option value="fill">fill</option>
+          <option value="stretch">stretch</option>
+        </select>
       </div>
-      <div style="flex:1">
+      <div>
+        <label>Direction</label>
+        <select bind:value={s.direction} on:change={onAutoChange}>
+          <option value="vertical">vertical</option>
+          <option value="horizontal">horizontal</option>
+          <option value="diagonal">diagonal</option>
+        </select>
+      </div>
+      <div>
         <label>Pixel size (px)</label>
         <input
           type="number"
@@ -396,25 +377,7 @@
       </div>
     </div>
     <div class="row">
-      <div style="flex:1">
-        <label>Mode</label>
-        <select bind:value={s.mode} on:change={onAutoChange}>
-          <option value="fit">fit</option>
-          <option value="fill">fill</option>
-          <option value="stretch">stretch</option>
-        </select>
-      </div>
-      <div style="flex:1">
-        <label>Direction</label>
-        <select bind:value={s.direction} on:change={onAutoChange}>
-          <option value="vertical">vertical</option>
-          <option value="horizontal">horizontal</option>
-          <option value="diagonal">diagonal</option>
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <div style="flex:1">
+      <div>
         <label>Dither</label>
         <select bind:value={s.dither} on:change={onAutoChange}>
           <option value="floyd">floyd</option>
@@ -422,18 +385,16 @@
           <option value="none">none</option>
         </select>
       </div>
-      <div style="flex:1">
-        <label
-          ><input
-            type="checkbox"
-            bind:checked={s.invert}
-            on:change={onAutoChange}
-          /> Invert</label
-        >
+      <div>
+        <label> Invert</label>
+        <input
+          type="checkbox"
+          bind:checked={s.invert}
+          on:change={onAutoChange}
+        />
       </div>
-    </div>
-    <div class="row">
-      <div style="flex:1">
+
+      <div>
         <label>Halftone cell</label>
         <input
           type="number"
@@ -442,79 +403,95 @@
           on:change={onAutoChange}
         />
       </div>
-      <div style="flex:1">
-        <label>Printer max width (px)</label>
-        <input
-          type="number"
-          step="1"
-          bind:value={s.printer_max_width_px}
-          on:change={onAutoChange}
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div style="flex:1">
-        <label>Dots/mm</label>
-        <input
-          type="number"
-          step="1"
-          min="1"
-          bind:value={s.printer_dots_per_mm}
-          on:change={onAutoChange}
-        />
-      </div>
     </div>
 
-    <div class="row" style="margin-top:12px; gap:12px">
+    <div class="row" style="margin-top: 10px;">
       <button on:click={downloadZIP}>Download</button>
-      <!-- <button on:click={openPrintSheets}>Print Sheets</button> -->
       <button on:click={doWebUSBPrint}>Print</button>
     </div>
 
-    <p class="muted" style="margin-top:8px">{busy ? "Working…" : statusMsg}</p>
+    <p class="muted">{busy ? "Working…" : statusMsg}</p>
 
     <div class="printer-box">
-      <h3 style="margin:0 0 8px">Printer</h3>
+      <h3>Printer</h3>
       <div class="row">
-        <div style="flex:1">
+        <div>
           <label>Vendor ID (hex)</label>
           <input placeholder="e.g. 04b8" bind:value={printer.vendorIdHex} />
         </div>
-        <div style="flex:1">
+        <div>
           <label>Product ID (hex)</label>
           <input placeholder="optional" bind:value={printer.productIdHex} />
         </div>
-      </div>
-      <div class="row">
-        <div style="flex:1">
+
+        <div>
           <label>Interface</label>
           <input type="number" min="0" bind:value={printer.iface} />
         </div>
-        <div style="flex:1">
+      </div>
+      <div class="row">
+        <div>
           <label>Endpoint</label>
           <input type="number" min="1" bind:value={printer.endpoint} />
         </div>
+
+        <div>
+          <label>Dots/mm</label>
+          <input
+            type="number"
+            step="1"
+            min="1"
+            bind:value={s.printer_dots_per_mm}
+            on:change={onAutoChange}
+          />
+        </div>
+        <div>
+          <label>Strip (mm)</label>
+          <input
+            type="number"
+            step="0.1"
+            min="1"
+            bind:value={s.strip_mm}
+            on:change={onAutoChange}
+          />
+        </div>
       </div>
       <div class="row">
-        <label
-          >Align
+        <div>
+          <label>Printer max width (px)</label>
+          <input
+            type="number"
+            step="1"
+            bind:value={s.printer_max_width_px}
+            on:change={onAutoChange}
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Align</label>
           <select bind:value={printer.align}>
             <option value="left">left</option>
             <option value="center">center</option>
             <option value="right">right</option>
           </select>
-        </label>
-        <label
-          ><input type="checkbox" bind:checked={printer.pause} /> Pause</label
-        >
-        <label><input type="checkbox" bind:checked={printer.cut} /> Cut</label>
+        </div>
+
+        <div>
+          <label> Pause</label>
+          <input type="checkbox" bind:checked={printer.pause} />
+        </div>
+        <div>
+          <label> Cut</label>
+          <input type="checkbox" bind:checked={printer.cut} />
+        </div>
       </div>
     </div>
   </div>
 
   <div class="panel">
     {#if strips.length}
-      <h3 style="margin-top:0">Strips</h3>
+      <!-- <h3>Strips</h3> -->
       <div class="strips">
         {#each strips as st}
           <div class="stripItem">
@@ -543,13 +520,14 @@
   :global(body) {
     margin: 0;
     padding: 0;
-    font-size: 12px;
+    font-size: 10px;
     font-family: "Courier New", Courier, monospace;
   }
 
   :global(::selection) {
     color: var(--accent);
   }
+
   h1,
   h2,
   h3,
@@ -564,46 +542,55 @@
     display: grid;
     grid-template-columns: 360px 1fr;
     gap: 8px;
-    padding: 5px;
+    padding: 8px;
   }
+
   .panel {
     background: var(--panel);
     border-radius: 6px;
-    padding: 5px;
+    padding: 8px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
   }
-  .controls label {
-    display: block;
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 8px;
-  }
+
+  /* Force 3 columns per row */
   .row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     align-items: center;
-    flex-wrap: wrap;
+    padding-top: 10px;
   }
+
+  .controls label {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    margin: 0 0 2px 0;
+  }
+
   input,
   select,
   button {
     border: 1px solid #bbb;
     background: #f5f5f5;
     color: var(--fg);
-    border-radius: 8px;
-    padding: 3px 4px;
+    border-radius: 6px;
+    padding: 2px 3px;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
   }
-  button.primary {
-    background: var(--accent);
-    border: none;
-    color: white;
-    font-weight: 600;
+
+  input[type="checkbox"] {
+    width: fit-content;
   }
+
   .strips {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
+    gap: 8px;
   }
+
   .stripItem {
     background: #fff;
     border: 1px solid #ccc;
@@ -611,25 +598,32 @@
     padding: 4px;
     height: fit-content;
   }
+
   .stripItem img {
     width: 100%;
     height: auto;
     image-rendering: pixelated;
   }
+
   .muted {
-    color: var(--muted);
-    font-size: 12px;
+    color: var(--accent);
+    font-size: 10px;
   }
-  @media (max-width: 980px) {
-    .grid {
-      grid-template-columns: 1fr;
-    }
-  }
+
   .printer-box {
     margin-top: 12px;
     border: 1px solid #c9c9c9;
     background: #efefef;
-    padding: 5px;
+    padding: 8px;
     border-radius: 6px;
+  }
+
+  @media (max-width: 980px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .row {
+      grid-template-columns: 1fr; /* collapse to 1 col on small screens */
+    }
   }
 </style>
