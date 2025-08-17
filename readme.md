@@ -16,7 +16,8 @@ It’s ideal for large-format or experimental printing with standard receipt pri
 
 It exists as a python library and web interface.
 
-<img width="1397" height="742" alt="Screenshot 2025-08-16 at 13 52 01" src="https://github.com/user-attachments/assets/fd783020-efc8-40b3-8357-b1162217b8e5" />
+<img width="1504" height="785" alt="Screenshot 2025-08-17 at 16 02 46" src="https://github.com/user-attachments/assets/a29a7622-a7cb-42c5-902a-4bfa3a32f753" />
+
 
 Installation
 ------------
