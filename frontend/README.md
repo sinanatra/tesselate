@@ -1,38 +1,16 @@
-# create-svelte
+<div style="display: flex; gap: 2%; align-items: flex-start;">
+  <img src="https://github.com/user-attachments/assets/38b56f58-050f-48a5-8277-ff8ebd73c9aa" alt="image 1" style="width: 49%; height: 100%; object-fit: cover;" />
+  <img src="https://github.com/user-attachments/assets/a86ea216-637c-4f9c-a3c1-d744856279a2" alt="image 2" style="width: 49%; height: 100%; object-fit: cover;" />
+</div>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
 
-## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
+Tesselate is also a web app built in Svelte. Runs entirely in the browser: load an image, set DIN/custom size and strip width, apply dithering (Floyd–Steinberg, Halftone, None, Invert), and export or print. 
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Quick start
 
 ```bash
+npm i
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# open http://localhost:5173
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
