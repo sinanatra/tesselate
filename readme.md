@@ -86,7 +86,7 @@ python tesselate.py print tesselated_strips --printer_name YOUR_PRINTER_NAME
 
 ---
 
-Web tool (browser)
+Web tool
 ------------------
 
 <div style="display: flex; gap: 2%; align-items: flex-start;">
