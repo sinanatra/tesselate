@@ -10,6 +10,7 @@ export async function printStripsWebUSB(
     align = "left",
     preCutFeed = 3,
     postStripFeed = 2,
+    maxRowsPerRaster = 256,
   } = {}
 ) {
   if (!("usb" in navigator)) throw new Error("WebUSB not supported");
@@ -56,30 +57,41 @@ export async function printStripsWebUSB(
 
   for (let i = 0; i < strips.length; i++) {
     const id = strips[i];
-    const bytesPerRow = Math.ceil(id.width / 8);
-    const buf = new Uint8Array(bytesPerRow * id.height);
+    const W = id.width;
+    const H = id.height;
+    const bytesPerRow = Math.ceil(W / 8);
 
-    for (let y = 0; y < id.height; y++) {
-      for (let x = 0; x < id.width; x++) {
-        const p = (y * id.width + x) * 4;
+    const buf = new Uint8Array(bytesPerRow * H);
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const p = (y * W + x) * 4;
         const bit = id.data[p] < 128 ? 1 : 0;
-        const idx = y * bytesPerRow + (x >> 3);
-        buf[idx] |= bit << (7 - (x & 7));
+        const bindex = y * bytesPerRow + (x >> 3);
+        buf[bindex] |= bit << (7 - (x & 7));
       }
     }
 
-    const xL = bytesPerRow & 0xff,
-      xH = (bytesPerRow >> 8) & 0xff;
-    const yL = id.height & 0xff,
-      yH = (id.height >> 8) & 0xff;
-    await write([0x1d, 0x76, 0x30, 0, xL, xH, yL, yH]);
+    const MAX_ROWS = Math.max(1, Math.min(1024, Math.floor(maxRowsPerRaster)));
+    for (let y0 = 0; y0 < H; y0 += MAX_ROWS) {
+      const rows = Math.min(MAX_ROWS, H - y0);
+      const xL = bytesPerRow & 0xff,
+        xH = (bytesPerRow >> 8) & 0xff;
+      const yL = rows & 0xff,
+        yH = (rows >> 8) & 0xff;
 
-    const CHUNK = 16384;
-    for (let off = 0; off < buf.length; off += CHUNK) {
-      await device.transferOut(
-        endpoint,
-        buf.subarray(off, Math.min(off + CHUNK, buf.length))
-      );
+      await write([0x1d, 0x76, 0x30, 0x00, xL, xH, yL, yH]);
+
+      const start = y0 * bytesPerRow;
+      const end = (y0 + rows) * bytesPerRow;
+      const band = buf.subarray(start, end);
+
+      const CHUNK = 16384;
+      for (let off = 0; off < band.length; off += CHUNK) {
+        await device.transferOut(
+          endpoint,
+          band.subarray(off, Math.min(off + CHUNK, band.length))
+        );
+      }
     }
 
     const push = Math.max(0, Math.min(20, Math.floor(postStripFeed)));
